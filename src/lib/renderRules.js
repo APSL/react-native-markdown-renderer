@@ -230,7 +230,12 @@ const renderRules = {
   // br
   softbreak: (node, children, parent, styles) => <Text key={node.key}>{'\n'}</Text>,
   image: (node, children, parent, styles) => {
-    return <FitImage indicator={true} key={node.key} style={styles.image} source={{ uri: node.attributes.src }} />;
+    let imageSource = { uri: node.attributes.src };
+    if (typeof imageSource.uri !== 'string') {
+      // Assume it's a local asset
+      imageSource = node.attributes.src;
+    }
+    return <FitImage indicator={true} key={node.key} style={styles.image} source={imageSource} />;
   },
 };
 
